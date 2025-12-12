@@ -19,3 +19,10 @@ on:
   - name: Execute test automation freamework      
     run: mvn clean test -DsuiteXmlFile=testng.xml -Denv=qa
     
+ - name: Upload a build artifacts
+   if: always()
+   uses: actions/upload-artifact@v4.6.2
+   with:
+     name: SureFire Report
+     path: target/surefire-report
+     retension-days: 10
