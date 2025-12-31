@@ -6,7 +6,11 @@ import org.testng.annotations.Test;
 import static com.api.utils.AuthTokenProvider.*;
 
 import static com.api.constant.roles.*;
+
+import com.api.constant.roles;
 import com.api.utils.ConfigManager;
+import com.api.utils.specUtils;
+
 import static io.restassured.RestAssured.*;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
@@ -17,20 +21,13 @@ public class UserDetailsAPITest {
 	@Test
 	public void userDeatislAPITest() throws IOException
 	{
-		Header authHeader=new Header("Authorization",getToken(FD));
 		given()
-			.baseUri(ConfigManager.getProperty("BASE_URI"))
-			.and()
-			.header(authHeader)
-			.and()
-			.accept(ContentType.JSON)
+		.spec(specUtils.requestSpecwithAuth(roles.FD))
 		.when()
 			.get("userdetails")
 		.then()
-			.log().all()
-			.statusCode(200)
-			.time(lessThan(1000L))
-			.body(JsonSchemaValidator.matchesJsonSchemaInClasspath("response-schema/UserDetailsResponseSchema.json"));
+		.spec(specUtils.responsespec())	
+		.body(JsonSchemaValidator.matchesJsonSchemaInClasspath("response-schema/UserDetailsResponseSchema.json"));
 	}
 
 }

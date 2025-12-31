@@ -3,6 +3,7 @@ package com.api.test;
 import com.api.constant.roles;
 import com.api.utils.AuthTokenProvider;
 import com.api.utils.ConfigManager;
+import com.api.utils.specUtils;
 
 import io.restassured.module.jsv.JsonSchemaValidator;
 
@@ -19,14 +20,11 @@ public class CountAPITest {
 	public void verifycountAPitResponse() throws IOException
 	{
 		given()
-		.baseUri(ConfigManager.getProperty("BASE_URI"))
-		.and()
-		.header("Authorization",AuthTokenProvider.getToken(roles.FD))
+		.spec(specUtils.requestSpecwithAuth(roles.FD))
 		.when()
 		.get("/dashboard/count")
 		.then()
-		.log().all()
-		.statusCode(200)
+		.spec(specUtils.responsespec())
 		.body("message",Matchers.equalTo("Success"))
 		.time(Matchers.lessThan(1000L))
 		.body("data",Matchers.notNullValue())
