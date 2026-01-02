@@ -8,7 +8,7 @@ import java.io.IOException;
 import org.testng.annotations.Test;
 
 import com.api.constant.roles;
-import com.api.pojo.UserCredential;
+import com.api.request.model.UserCredential;
 import com.api.utils.ConfigManager;
 import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
