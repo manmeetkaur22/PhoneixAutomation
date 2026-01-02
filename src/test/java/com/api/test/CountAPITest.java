@@ -1,36 +1,22 @@
 package com.api.test;
 
-import com.api.constant.roles;
-import com.api.utils.AuthTokenProvider;
-import com.api.utils.ConfigManager;
-import com.api.utils.specUtils;
-
-import io.restassured.module.jsv.JsonSchemaValidator;
-
-import static io.restassured.RestAssured.*;
-
+import static io.restassured.RestAssured.given;
 import java.io.IOException;
-
 import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
+import com.api.constant.roles;
+import static com.api.utils.specUtils.*;
+import static io.restassured.module.jsv.JsonSchemaValidator.*;
 
 public class CountAPITest {
 
-	@Test()
-	public void verifycountAPitResponse() throws IOException
-	{
-		given()
-		.spec(specUtils.requestSpecwithAuth(roles.FD))
-		.when()
-		.get("/dashboard/count")
-		.then()
-		.spec(specUtils.responsespec())
-		.body("message",Matchers.equalTo("Success"))
-		.time(Matchers.lessThan(1000L))
-		.body("data",Matchers.notNullValue())
-		.body("data.size()", Matchers.equalTo(3))
-		.body("data.count",Matchers.everyItem(Matchers.greaterThanOrEqualTo(0)))
-		.body(JsonSchemaValidator.matchesJsonSchemaInClasspath("response-schema/CountResponseSchema.json"));
+	@Test(description = "Verifying count api is giving correct response", groups = { "regression", "smoke", "api" })
+	public void verifycountAPitResponse() throws IOException {
+		given().spec(requestSpecwithAuth(roles.FD)).when().get("/dashboard/count").then().spec(responsespec())
+				.body("message", Matchers.equalTo("Success")).time(Matchers.lessThan(1000L))
+				.body("data", Matchers.notNullValue()).body("data.size()", Matchers.equalTo(3))
+				.body("data.count", Matchers.everyItem(Matchers.greaterThanOrEqualTo(0)))
+				.body(matchesJsonSchemaInClasspath("response-schema/CountResponseSchema.json"));
 	}
-	
+
 }
