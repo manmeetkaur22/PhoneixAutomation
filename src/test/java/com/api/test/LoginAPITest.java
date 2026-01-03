@@ -6,6 +6,8 @@ import static org.hamcrest.Matchers.*;
 import java.io.IOException;
 
 import org.testng.annotations.Test;
+import static com.api.utils.specUtils.*;
+import static io.restassured.module.jsv.JsonSchemaValidator.*;
 
 import com.api.constant.roles;
 import com.api.pojo.UserCredential;
