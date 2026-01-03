@@ -5,8 +5,8 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-  schedule:
-    - cron: "30 18 * * *"   # Midnight IST
+  #schedule:
+  #  - cron: "30 18 * * *"   # Midnight IST
   workflow_dispatch:
     inputs:
       env:
