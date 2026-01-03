@@ -7,7 +7,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import com.api.request.model.UserCredential;
 import static com.api.utils.specUtils.*;
-
 import static io.restassured.module.jsv.JsonSchemaValidator.*;
 
 public class LoginAPITest {

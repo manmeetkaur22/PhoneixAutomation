@@ -29,7 +29,7 @@ public class CreateJobAPITest {
 	private CreateJobPayload createJobPayload;
 
 	@BeforeMethod(description = "creating create job api request payload")
-)
+
 	public void setup() {
 		Customer customer = new Customer("Jatin", "Sharma", "776767777", "", "jatin@gmail.com", "");
 		CustomerAddress customer_address = new CustomerAddress("D 404", "Vasant Glaxy", "Bangur Nagar", "Inrobit",
