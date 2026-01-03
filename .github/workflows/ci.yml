@@ -5,8 +5,8 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-  schedule:
-    - cron: "30 18 * * *"   # Midnight IST
+  #schedule:
+  #  - cron: "30 18 * * *"   # Midnight IST
   workflow_dispatch:
     inputs:
       env:
@@ -35,9 +35,14 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
+      - name: Default value of execution
+        id: default
+        run:
+              echo "suiteXmlFile=${{github.event.inputs.suiteXmlFile || 'testng.xml'}}" >> $GITHUB_OUTPUT
+              echo "env=${{github.event.inputs.env || 'qa'}}" >> $GITHUB_OUTPUT
 
       - name: Executing Test Automation framework
-        run: mvn clean test -DsuiteXmlFile=testng.xml -Denv=${{ github.event.inputs.env }}
+        run: mvn clean test -DsuiteXmlFile=${{steps.default.outputs.suiteXmlFile}} -Denv=${{ steps.default.outputs.env}}
 
       - name: Upload build artifacts
         if: always()
