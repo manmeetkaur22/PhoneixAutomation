@@ -3,7 +3,8 @@ import io.restassured.http.ContentType;
 import static io.restassured.RestAssured.*;
 
 import com.api.constant.roles;
-import com.api.pojo.UserCredential;
+import com.api.request.model.UserCredential;
+
 import static org.hamcrest.Matchers.*;
 
 import java.io.IOException;

@@ -1,0 +1,53 @@
+name: Phoenix Test Automation Framework
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  #schedule:
+  #  - cron: "30 18 * * *"   # Midnight IST
+  workflow_dispatch:
+    inputs:
+      env:
+        description: "Environment"
+        type: choice
+        options: [qa, uat, dev]
+        default: qa
+        required: true
+      suiteXmlFile:
+        description: "Testng xml File"
+        type: choice
+        options: [testng.xml,smoke.xml,regression.xml]
+        default: testng.xml
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Default value of execution
+        id: default
+        run:
+              echo "suiteXmlFile=${{github.event.inputs.suiteXmlFile || 'testng.xml'}}" >> $GITHUB_OUTPUT
+              echo "env=${{github.event.inputs.env || 'qa'}}" >> $GITHUB_OUTPUT
+
+      - name: Executing Test Automation framework
+        run: mvn clean test -DsuiteXmlFile=${{steps.default.outputs.suiteXmlFile}} -Denv=${{ steps.default.outputs.env}}
+
+      - name: Upload build artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Surefire Report
+          path: target/surefire-reports/
+          retention-days: 10
