@@ -1,18 +1,27 @@
 package com.api.test;
 
-import static io.restassured.RestAssured.given;
-import java.io.IOException;
+import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
+import static io.restassured.RestAssured.*;
+import java.io.IOException;
 import com.api.constant.roles;
-import static com.api.utils.specUtils.*;
-import static io.restassured.module.jsv.JsonSchemaValidator.*;
+import com.api.utils.AuthTokenProvider;
+import com.api.utils.ConfigManager;
+import com.api.utils.specUtils;
+
+import io.restassured.module.jsv.JsonSchemaValidator;
 
 public class MasterAPITest {
-	@Test(description = "Verifying master api is giving correct response", groups = { "regression", "smoke", "api" })
-	public void MasterAPIResponse() throws IOException {
-		given().spec(requestSpecwithAuth(roles.FD)).when().post("master").then().spec(responsespec())
-				// .body("data",Matchers.hasKey("mst_osem"))
-				.body(matchesJsonSchemaInClasspath("response-schema/MasterResponseSchema.json"));
-
+	@Test()
+	public void MasterAPIResponse() throws IOException{
+		given()
+		.spec(specUtils.requestSpecwithAuth(roles.FD))
+		.when()
+		.post("master")
+		.then()
+		.spec(specUtils.responsespec())
+		//.body("data",Matchers.hasKey("mst_osem"))
+		.body(JsonSchemaValidator.matchesJsonSchemaInClasspath("response-schema/MasterResponseSchema.json"));
+		
 	}
 }

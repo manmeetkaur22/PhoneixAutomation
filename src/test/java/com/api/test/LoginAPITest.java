@@ -1,28 +1,33 @@
 package com.api.test;
 
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
+
 import java.io.IOException;
-import org.testng.annotations.BeforeMethod;
+
 import org.testng.annotations.Test;
-import com.api.request.model.UserCredential;
-import static com.api.utils.specUtils.*;
 
-import static io.restassured.module.jsv.JsonSchemaValidator.*;
-
+import com.api.constant.roles;
+import com.api.pojo.UserCredential;
+import com.api.utils.ConfigManager;
+import io.restassured.http.ContentType;
+import io.restassured.module.jsv.JsonSchemaValidator;
+import com.api.utils.specUtils;
 public class LoginAPITest {
-	private UserCredential UserCredential;
-
-	@BeforeMethod(description = "Create the payload for login API")
-	public void setup() {
-		UserCredential = new UserCredential("iamfd", "password");
+	@Test
+	public void loginAPITest() throws IOException
+	{
+		UserCredential UserCredential = new UserCredential("iamfd","password");
+		given()
+			.spec(specUtils.requestspec(UserCredential))
+		.when()
+			.post("login")
+		.then()
+			.spec(specUtils.responsespec())
+		.body("message", equalTo("Success"))
+		.and()
+	    .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("response-schema/LoginResponseSchema.json"));
 	}
 
-	@Test(description = "Verifying login api is working for FD user", groups = { "api", "regression", "smoke" })
-	public void loginAPITest() throws IOException {
-		given().spec(requestspec(UserCredential)).when().post("login").then().spec(responsespec())
-				.body("message", equalTo("Success")).and()
-				.body(matchesJsonSchemaInClasspath("response-schema/LoginResponseSchema.json"));
+	
 	}
-
-}
