@@ -1,4 +1,5 @@
 package com.api.constant;
+//Add Constant
 
 public enum Platform {
 	FRONT_DESK(2);

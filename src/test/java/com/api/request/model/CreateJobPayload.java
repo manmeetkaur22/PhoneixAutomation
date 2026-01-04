@@ -1,5 +1,7 @@
 package com.api.request.model;
 
+//Add records
+
 import java.util.List;
 
 public record CreateJobPayload(int mst_service_location_id, int mst_platform_id, int mst_warrenty_status_id,

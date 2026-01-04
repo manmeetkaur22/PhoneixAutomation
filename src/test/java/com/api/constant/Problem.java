@@ -1,4 +1,5 @@
 package com.api.constant;
+//Add Constant
 
 public enum Problem {
 	SMARTPHONE_IS_RUNNIG_SLOW(1), POOR_BATTERY_LIFE(2), PHONE_OR_APP_CRASHES(3), SYNC_ISSUE(4), OVERHEATING(5);

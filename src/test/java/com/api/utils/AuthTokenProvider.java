@@ -3,8 +3,7 @@ import io.restassured.http.ContentType;
 import static io.restassured.RestAssured.*;
 
 import com.api.constant.roles;
-import com.api.request.model.UserCredential;
-
+import com.api.pojo.UserCredential;
 import static org.hamcrest.Matchers.*;
 
 import java.io.IOException;
@@ -12,7 +11,7 @@ import java.io.IOException;
 public class AuthTokenProvider {
 	private AuthTokenProvider()
 	{}
-	
+	// Creating different token for different role
 	public static String getToken(roles role) throws IOException
 	{
 		UserCredential userCredential=null;
